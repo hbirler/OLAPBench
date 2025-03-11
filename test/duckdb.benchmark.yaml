@@ -1,0 +1,23 @@
+title: DuckDB Test
+repetitions: 1
+warmup: 0
+timeout: 1
+global_timeout: 1
+fetch_result: true
+output: test/duckdb/
+systems:
+  - title: DuckDB ${version}
+    dbms: duckdb
+    disabled: false
+    parameter:
+      version:
+        - "0.7.0"
+        - "0.8.0"
+        - "0.9.0"
+        - "1.0.0"
+        - "1.1.0"
+        - "1.2.0"
+        - "latest"
+benchmarks:
+  - name: tpch
+    scale: 0.01

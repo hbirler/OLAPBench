@@ -1,0 +1,32 @@
+docker
+six
+objectpath
+jsonschema
+pyyaml
+natsort
+requests
+vertica_python
+dataclasses-json
+wget
+python-dotenv
+pandas
+scipy
+simplejson
+
+
+# Umbra & Postgres
+psycopg2
+
+# MonetDB
+pymonetdb
+
+# SQLServer
+pyodbc
+
+
+# CPU Configuration
+psutil
+py-libnuma
+
+# Logging
+rich

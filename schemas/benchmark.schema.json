@@ -1,0 +1,203 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "Umbra Benchmark Schema",
+  "definitions": {
+    "query_plan": {
+      "type": "object",
+      "properties": {
+        "retrieve": {
+          "type": "boolean",
+          "default": false
+        },
+        "system_representation": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "system": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "dbms": {
+          "type": "string",
+          "enum": [
+            "apollo",
+            "cedardb",
+            "clickhouse",
+            "duckdb",
+            "hyper",
+            "monetdb",
+            "postgres",
+            "singlestore",
+            "sqlserver",
+            "umbra",
+            "umbradev"
+          ]
+        },
+        "disabled": {
+          "type": "boolean",
+          "default": false
+        },
+        "parameter": {
+          "type": "object",
+          "properties": {
+            "buffer_size": {
+              "type": "string"
+            },
+            "worker_threads": {
+              "type": "integer"
+            },
+            "numa_node": {
+              "type": "integer",
+              "enum": [
+                1,
+                2,
+                3,
+                4
+              ]
+            },
+            "index": {
+              "type": "string",
+              "enum": [
+                "none",
+                "primary",
+                "foreign"
+              ],
+              "default": "primary"
+            },
+            "version": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ]
+            },
+            "umbra_planner": {
+              "type": "boolean"
+            },
+            "umbra_planner_parameter": {
+              "$ref": "#/definitions/parameter"
+            },
+            "umbra_planner_settings": {
+              "$ref": "#/definitions/settings"
+            }
+          }
+        },
+        "settings": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "title",
+        "dbms"
+      ],
+      "additionalProperties": false
+    },
+    "benchmark": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "disabled": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    }
+  },
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "repetitions": {
+      "type": "integer",
+      "$comment": "The number of repetitions"
+    },
+    "warmup": {
+      "type": "integer",
+      "$comment": "The number of warmup repetitions"
+    },
+    "output": {
+      "type": "string",
+      "$comment": "The output directory for the benchmark results"
+    },
+    "timeout": {
+      "type": "number",
+      "default": 0,
+      "$comment": "Specifies the timeout for each query in seconds (default: 0 - no timeout)"
+    },
+    "global_timeout": {
+      "type": "number",
+      "default": 0,
+      "$comment": "Specifies the global timeout for the benchmark in seconds (default: 0 - no timeout)"
+    },
+    "fetch_result": {
+      "type": "boolean",
+      "default": true,
+      "$comment": "Indicates whether to fetch results from the database"
+    },
+    "fetch_result_limit": {
+      "type": "integer",
+      "default": 0,
+      "$comment": "Maximum number of results to fetch (default: 0 - no limit)"
+    },
+    "query_seed": {
+      "type": "integer",
+      "default": 0,
+      "$comment": "Seed value to determine the order of query execution (default: 0 - the original order)"
+    },
+    "query_plan": {
+      "$ref": "#/definitions/query_plan"
+    },
+    "parameter": {
+      "type": "object"
+    },
+    "settings": {
+      "type": "object"
+    },
+    "systems": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/system"
+      }
+    },
+    "benchmarks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/benchmark"
+      }
+    },
+    "queries": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "excluded_queries": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "title",
+    "repetitions",
+    "warmup",
+    "output",
+    "systems"
+  ]
+}

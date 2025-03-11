@@ -1,0 +1,105 @@
+{
+  "file_ending": "tbl",
+  "delimiter": "|",
+  "format": "text",
+  "csv_escape": "\\",
+  "null": "",
+  "tables": [
+    {
+      "name": "date",
+      "columns": [
+        { "name": "d_datekey", "type": "integer" },
+        { "name": "d_date", "type": "char(18)" },
+        { "name": "d_dayofweek", "type": "char(9)" },
+        { "name": "d_month", "type": "char(9)" },
+        { "name": "d_year", "type": "integer" },
+        { "name": "d_yearmonthnum", "type": "integer" },
+        { "name": "d_yearmonth", "type": "char(7)" },
+        { "name": "d_daynuminweek", "type": "integer" },
+        { "name": "d_daynuminmonth", "type": "integer" },
+        { "name": "d_daynuminyear", "type": "integer" },
+        { "name": "d_monthnuminyear", "type": "integer" },
+        { "name": "d_weeknuminyear", "type": "integer" },
+        { "name": "d_sellingseason", "type": "varchar(12)" },
+        { "name": "d_lastdayinweekfl", "type": "integer" },
+        { "name": "d_lastdayinmonthfl", "type": "integer" },
+        { "name": "d_holidayfl", "type": "integer" },
+        { "name": "d_weekdayfl", "type": "integer" }
+      ],
+      "primary key": { "column": "d_datekey" }
+    },
+    {
+      "name": "supplier",
+      "columns": [
+        { "name": "s_suppkey", "type": "integer" },
+        { "name": "s_name", "type": "char(25) " },
+        { "name": "s_address", "type": "varchar(25)" },
+        { "name": "s_city", "type": "char(10) " },
+        { "name": "s_nation", "type": "char(15) " },
+        { "name": "s_region", "type": "char(12) " },
+        { "name": "s_phone", "type": "char(15) " }
+      ],
+      "primary key": { "column": "s_suppkey" }
+    },
+    {
+      "name": "customer",
+      "columns": [
+        { "name": "c_custkey", "type": "integer" },
+        { "name": "c_name", "type": "varchar(25)" },
+        { "name": "c_address", "type": "varchar(25)" },
+        { "name": "c_city", "type": "char(10) " },
+        { "name": "c_nation", "type": "char(15) " },
+        { "name": "c_region", "type": "char(12) " },
+        { "name": "c_phone", "type": "char(15) " },
+        { "name": "c_mktsegment", "type": "char(10) " }
+      ],
+      "primary key": { "column": "c_custkey" }
+    },
+    {
+      "name": "part",
+      "columns": [
+        { "name": "p_partkey", "type": "integer" },
+        { "name": "p_name", "type": "varchar(22)" },
+        { "name": "p_mfgr", "type": "char(6)" },
+        { "name": "p_category", "type": "char(7)" },
+        { "name": "p_brand1", "type": "char(9)" },
+        { "name": "p_color", "type": "varchar(11)" },
+        { "name": "p_type", "type": "varchar(25)" },
+        { "name": "p_size", "type": "integer" },
+        { "name": "p_container", "type": "char(10)" }
+      ],
+      "primary key": { "column": "p_partkey" }
+    },
+    {
+      "name": "lineorder",
+      "columns": [
+        { "name": "lo_orderkey", "type": "integer not null", "_eval": "dataset.scale < 1000" },
+        { "name": "lo_orderkey", "type": "bigint not null", "_eval": "dataset.scale >= 1000" },
+        { "name": "lo_linenumber", "type": "integer" },
+        { "name": "lo_custkey", "type": "integer" },
+        { "name": "lo_partkey", "type": "integer" },
+        { "name": "lo_suppkey", "type": "integer" },
+        { "name": "lo_orderdate", "type": "integer" },
+        { "name": "lo_orderpriority", "type": "char(15)" },
+        { "name": "lo_shippriority", "type": "char(1)" },
+        { "name": "lo_quantity", "type": "integer" },
+        { "name": "lo_extendedprice", "type": "numeric(18, 2)" },
+        { "name": "lo_ordtotalprice", "type": "numeric(18, 2)" },
+        { "name": "lo_discount", "type": "integer" },
+        { "name": "lo_revenue", "type": "numeric(18, 2)" },
+        { "name": "lo_supplycost", "type": "numeric(18, 2)" },
+        { "name": "lo_tax", "type": "integer" },
+        { "name": "lo_commitdate", "type": "integer" },
+        { "name": "lo_shipmode", "type": "char(10)" }
+      ],
+      "primary key": { "columns": [ "lo_orderkey", "lo_linenumber" ] },
+      "foreign keys": [
+        { "column": "lo_custkey", "foreign table": "customer", "foreign column": "c_custkey" },
+        { "column": "lo_partkey", "foreign table": "part", "foreign column": "p_partkey" },
+        { "column": "lo_suppkey", "foreign table": "supplier", "foreign column": "s_suppkey" },
+        { "column": "lo_orderdate", "foreign table": "date", "foreign column": "d_datekey" },
+        { "column": "lo_commitdate", "foreign table": "date", "foreign column": "d_datekey" }
+      ]
+    }
+  ]
+}

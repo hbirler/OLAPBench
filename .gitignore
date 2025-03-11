@@ -1,0 +1,10 @@
+.venv/
+.vscode/
+.idea/
+__pycache__/
+
+db/
+data/
+
+**/*_sqlstorm_*
+test/**/*.csv

@@ -1,0 +1,204 @@
+{
+  "file_ending": "csv",
+  "delimiter": ",",
+  "format": "csv",
+  "null": "",
+  "escape_names": false,
+  "tables": [
+    {
+      "name": "PostHistoryTypes",
+      "columns": [
+        { "name": "Id", "type": "smallint not null" },
+        { "name": "Name", "type": "varchar(50) not null" }
+      ],
+      "primary key": { "column": "Id" }
+    },
+    {
+      "name": "LinkTypes",
+      "columns": [
+        { "name": "Id", "type": "smallint not null" },
+        { "name": "Name", "type": "varchar(50) not null" }
+      ],
+      "primary key": { "column": "Id" }
+    },
+    {
+      "name": "PostTypes",
+      "columns": [
+        { "name": "Id", "type": "smallint not null" },
+        { "name": "Name", "type": "varchar(50) not null" }
+      ],
+      "primary key": { "column": "Id" }
+    },
+    {
+      "name": "CloseReasonTypes",
+      "columns": [
+        { "name": "Id", "type": "smallint not null" },
+        { "name": "Name", "type": "varchar(50) not null" }
+      ],
+      "primary key": { "column": "Id" }
+    },
+    {
+      "name": "VoteTypes",
+      "columns": [
+        { "name": "Id", "type": "smallint not null" },
+        { "name": "Name", "type": "varchar(50) not null" }
+      ],
+      "primary key": { "column": "Id" }
+    },
+    {
+      "name": "Users",
+      "columns": [
+        { "name": "Id", "type": "int not null" },
+        { "name": "Reputation", "type": "int not null" },
+        { "name": "CreationDate", "type": "timestamp not null" },
+        { "name": "DisplayName", "type": "varchar(100)" },
+        { "name": "LastAccessDate", "type": "timestamp not null" },
+        { "name": "WebsiteUrl", "type": "varchar(200)" },
+        { "name": "Location", "type": "varchar(300)" },
+        { "name": "AboutMe", "type": "text" },
+        { "name": "Views", "type": "int" },
+        { "name": "UpVotes", "type": "int" },
+        { "name": "DownVotes", "type": "int" },
+        { "name": "ProfileImageUrl", "type": "varchar(200)" },
+        { "name": "AccountId", "type": "bigint" }
+      ],
+      "primary key": { "column": "Id" }
+    },
+    {
+      "name": "Badges",
+      "columns": [
+        { "name": "Id", "type": "int not null" },
+        { "name": "UserId", "type": "int not null" },
+        { "name": "Name", "type": "varchar(50) not null" },
+        { "name": "Date", "type": "timestamp not null" },
+        { "name": "Class", "type": "smallint not null" },
+        { "name": "TagBased", "type": "bool not null" }
+      ],
+      "primary key": { "column": "Id" },
+      "foreign keys": [ { "column": "UserId", "foreign table": "Users", "foreign column": "Id" } ]
+    },
+    {
+      "name": "Posts",
+      "columns": [
+        { "name": "Id", "type": "int not null" },
+        { "name": "PostTypeId", "type": "smallint" },
+        { "name": "AcceptedAnswerId", "type": "int" },
+        { "name": "ParentId", "type": "int" },
+        { "name": "CreationDate", "type": "timestamp" },
+        { "name": "Score", "type": "int" },
+        { "name": "ViewCount", "type": "int" },
+        { "name": "Body", "type": "text" },
+        { "name": "OwnerUserId", "type": "int" },
+        { "name": "OwnerDisplayName", "type": "varchar(100)" },
+        { "name": "LastEditorUserId", "type": "int" },
+        { "name": "LastEditorDisplayName", "type": "varchar(100)" },
+        { "name": "LastEditDate", "type": "timestamp" },
+        { "name": "LastActivityDate", "type": "timestamp" },
+        { "name": "Title", "type": "varchar(300)" },
+        { "name": "Tags", "type": "varchar(4000)" },
+        { "name": "AnswerCount", "type": "int" },
+        { "name": "CommentCount", "type": "int" },
+        { "name": "FavoriteCount", "type": "int" },
+        { "name": "ClosedDate", "type": "timestamp" },
+        { "name": "CommunityOwnedDate", "type": "timestamp" },
+        { "name": "ContentLicense", "type": "varchar(30)" }
+      ],
+      "primary key": { "column": "Id" },
+      "foreign keys": [
+        { "column": "PostTypeId", "foreign table": "PostTypes", "foreign column": "Id" },
+        { "column": "AcceptedAnswerId", "foreign table": "Posts", "foreign column": "Id" },
+        { "column": "ParentId", "foreign table": "Posts", "foreign column": "Id" },
+        { "column": "OwnerUserId", "foreign table": "Users", "foreign column": "Id" },
+        { "column": "LastEditorUserId", "foreign table": "Users", "foreign column": "Id" }
+      ]
+    },
+    {
+      "name": "Comments",
+      "columns": [
+        { "name": "Id", "type": "int not null" },
+        { "name": "PostId", "type": "int not null" },
+        { "name": "Score", "type": "int" },
+        { "name": "Text", "type": "varchar(2000) not null" },
+        { "name": "CreationDate", "type": "timestamp not null" },
+        { "name": "UserDisplayName", "type": "varchar(100)" },
+        { "name": "UserId", "type": "int" },
+        { "name": "ContentLicense", "type": "varchar(30)" }
+      ],
+      "primary key": { "column": "Id" },
+      "foreign keys": [
+        { "column": "PostId", "foreign table": "Posts", "foreign column": "Id" },
+        { "column": "UserId", "foreign table": "Users", "foreign column": "Id" }
+      ]
+    },
+    {
+      "name": "PostHistory",
+      "columns": [
+        { "name": "Id", "type": "int not null" },
+        { "name": "PostHistoryTypeId", "type": "smallint" },
+        { "name": "PostId", "type": "int" },
+        { "name": "RevisionGUID", "type": "varchar(36)" },
+        { "name": "CreationDate", "type": "timestamp" },
+        { "name": "UserId", "type": "int" },
+        { "name": "UserDisplayName", "type": "varchar(100)" },
+        { "name": "Comment", "type": "varchar(800)" },
+        { "name": "Text", "type": "text" },
+        { "name": "ContentLicense", "type": "varchar(30)" }
+      ],
+      "primary key": { "column": "Id" },
+      "foreign keys": [
+        { "column": "PostHistoryTypeId", "foreign table": "PostHistoryTypes", "foreign column": "Id" },
+        { "column": "PostId", "foreign table": "Posts", "foreign column": "Id" },
+        { "column": "UserId", "foreign table": "Users", "foreign column": "Id" }
+      ]
+    },
+    {
+      "name": "PostLinks",
+      "columns": [
+        { "name": "Id", "type": "bigint not null" },
+        { "name": "CreationDate", "type": "timestamp not null" },
+        { "name": "PostId", "type": "int not null" },
+        { "name": "RelatedPostId", "type": "int not null" },
+        { "name": "LinkTypeId", "type": "smallint not null" }
+      ],
+      "primary key": { "column": "Id" },
+      "foreign keys": [
+        { "column": "PostId", "foreign table": "Posts", "foreign column": "Id" },
+        { "column": "RelatedPostId", "foreign table": "Posts", "foreign column": "Id" },
+        { "column": "LinkTypeId", "foreign table": "LinkTypes", "foreign column": "Id" }
+      ]
+    },
+    {
+      "name": "Tags",
+      "columns": [
+        { "name": "Id", "type": "int not null" },
+        { "name": "TagName", "type": "varchar(35)" },
+        { "name": "Count", "type": "int not null" },
+        { "name": "ExcerptPostId", "type": "int" },
+        { "name": "WikiPostId", "type": "int" },
+        { "name": "IsModeratorOnly", "type": "bool" },
+        { "name": "IsRequired", "type": "bool" }
+      ],
+      "primary key": { "column": "Id" },
+      "foreign keys": [
+        { "column": "ExcerptPostId", "foreign table": "Posts", "foreign column": "Id" },
+        { "column": "WikiPostId", "foreign table": "Posts", "foreign column": "Id" }
+      ]
+    },
+    {
+      "name": "Votes",
+      "columns": [
+        { "name": "Id", "type": "int not null" },
+        { "name": "PostId", "type": "int not null" },
+        { "name": "VoteTypeId", "type": "smallint not null" },
+        { "name": "UserId", "type": "int" },
+        { "name": "CreationDate", "type": "timestamp" },
+        { "name": "BountyAmount", "type": "int" }
+      ],
+      "primary key": { "column": "Id" },
+      "foreign keys": [
+        { "column": "VoteTypeId", "foreign table": "VoteTypes", "foreign column": "Id" },
+        { "column": "UserId", "foreign table": "Users", "foreign column": "Id" }
+      ]
+    }
+  ]
+}

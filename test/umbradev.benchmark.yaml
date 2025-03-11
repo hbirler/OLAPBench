@@ -1,0 +1,35 @@
+title: UmbraDev Test
+repetitions: 1
+warmup: 0
+timeout: 1
+global_timeout: 1
+fetch_result: true
+output: test/umbradev/
+systems:
+  - title: UmbraDev ${version}
+    dbms: umbradev
+    disabled: false
+    parameter:
+      version: "2025-01-23"
+      umbra_db: "2025-01-23"
+    settings:
+      usedirectio: true
+  - title: UmbraDev ${version}
+    dbms: umbradev
+    disabled: false
+    parameter:
+      version: "25.01"
+      umbra_db: "25.01"
+    settings:
+      usedirectio: false
+  - title: UmbraDev ${version}
+    dbms: umbradev
+    disabled: false
+    parameter:
+      version: "latest"
+      umbra_db: "latest"
+    settings:
+      usedirectio: true
+benchmarks:
+  - name: tpch
+    scale: 0.01

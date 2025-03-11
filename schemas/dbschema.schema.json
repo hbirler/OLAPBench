@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "Schema for Database Schema Definitions",
+  "definitions": {
+    "column": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "type": { "type": "string" },
+        "_eval": { "type": "string" }
+      },
+      "additionalProperties": false,
+      "required": [ "name", "type" ]
+    },
+    "primary key": {
+      "type": "object",
+      "properties": {
+        "column": { "type": "string" },
+        "columns": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false,
+      "oneOf": [
+        { "required": [ "column" ] },
+        { "required": [ "columns" ] }
+      ]
+    },
+    "foreign key": {
+      "type": "object",
+      "properties": {
+        "column": { "type": "string" },
+        "columns": { "type": "array", "items": { "type": "string" } },
+        "foreign table": { "type": "string" },
+        "foreign column": { "type": "string" },
+        "foreign columns": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false,
+      "oneOf": [
+        { "required": [ "column", "foreign table", "foreign column" ] },
+        { "required": [ "columns", "foreign table", "foreign columns" ] }
+      ]
+    },
+    "table": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "columns": { "type": "array", "items": { "$ref": "#/definitions/column" } },
+        "primary key": { "$ref": "#/definitions/primary key" },
+        "foreign keys": { "type": "array", "items": { "$ref": "#/definitions/foreign key" } },
+        "_eval": { "type": "string" },
+        "initially empty": { "type": "boolean", "default": false }
+      },
+      "additionalProperties": false,
+      "required": [ "name", "columns" ]
+    },
+    "query": {
+      "type": "object",
+      "properties": {
+        "query": { "type": "string" },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false,
+      "required": [ "query" ]
+    }
+  },
+  "type": "object",
+  "properties": {
+    "file_ending": { "type": "string", "default": "tbl" },
+    "delimiter": {
+      "type": "string",
+      "default": ","
+    },
+    "format": {
+      "type": "string",
+      "enum": [ "text", "csv" ],
+      "default": "text"
+    },
+    "csv_escape": {
+      "type": "string",
+      "default": "\\"
+    },
+    "null": {
+      "type": "string",
+      "default": ""
+    },
+    "tables": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/table" }
+    },
+    "header": { "type": "boolean", "default": false },
+    "lowercase_names": { "type": "boolean", "default": false },
+    "escape_names": { "type": "boolean", "default": true },
+    "additional_sql_create": { "type": "array", "items": { "$ref": "#/definitions/query" } },
+    "additional_sql_insert": { "type": "array", "items": { "$ref": "#/definitions/query" } }
+  },
+  "additionalProperties": false,
+  "required": [ "file_ending", "delimiter", "format", "tables" ]
+}
