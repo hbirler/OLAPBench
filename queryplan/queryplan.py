@@ -29,7 +29,11 @@ def encode_query_plan(query_plan: QueryPlan, format: str = "json") -> str:
 
     # split the query plan text into lines and remove leading and trailing whitespaces
     text = " ".join([line.strip() for line in query_plan.text.split("\n")])
-    plan = query_plan_encoder.encode_plan_node(query_plan.plan)
+    if isinstance(query_plan.plan, str):
+        # if the plan is already a string, we assume it is already encoded
+        plan = query_plan.plan
+    else:
+        plan = query_plan_encoder.encode_plan_node(query_plan.plan)
 
     json_dict = {
         QUERY_TEXT_KEY: text,

@@ -7,6 +7,7 @@ import pyodbc
 
 from benchmarks.benchmark import Benchmark
 from dbms.dbms import DBMS, DBMSDescription, Result
+from queryplan.queryplan import QueryPlan
 from util import sql, logger
 
 
@@ -191,6 +192,17 @@ class SQLServer(DBMS):
     def load_database(self):
         super().load_database()
         self.cursor.execute("DBCC CHECKDB")
+
+    def retrieve_query_plan(self, query: str, include_system_representation: bool = False) -> QueryPlan:
+        self.cursor.execute("set showplan_xml on;")
+        self.cursor.commit()
+        result = self._execute(query=query.strip(), fetch_result=True).result
+        xml_plan = result[0][0]
+        self.cursor.commit()
+        self.cursor.execute("set showplan_xml off;")
+        self.cursor.commit()
+        print(xml_plan)
+        return QueryPlan(text=query, plan=xml_plan)
 
 
 class SQLServerDescription(DBMSDescription):
