@@ -137,6 +137,7 @@ def benchmarks() -> dict[str, BenchmarkDescription]:
     from benchmarks.tpcds import tpcds
     from benchmarks.tpch import tpch
     from benchmarks.stackoverflow import stackoverflow
+    from benchmarks.markjoin import markjoin
 
     benchmark_list = [
         clickbench.ClickBenchDescription,
@@ -144,7 +145,8 @@ def benchmarks() -> dict[str, BenchmarkDescription]:
         ssb.SSBDescription,
         stackoverflow.StackOverflowDescription,
         tpcds.TPCDSDescription,
-        tpch.TPCHDescription
+        tpch.TPCHDescription,
+        markjoin.MarkJoinDescription
     ]
     return {benchmark.get_name(): benchmark for benchmark in benchmark_list}
 
