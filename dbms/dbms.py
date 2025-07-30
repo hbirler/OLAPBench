@@ -146,6 +146,10 @@ class DBMS(ABC):
         self.client = docker.from_env()
         logger.log_dbms(f"Pulling {self.docker_image} docker image", self)
         try:
+            # Check if the image already exists
+            if self.docker_image in [image.tags[0] for image in self.client.images.list()]:
+                logger.log_dbms(f"{self.docker_image} docker image already exists", self)
+                return
             self.client.images.pull(self.docker_image)
         except Exception as e:
             logger.log_dbms(f"Could not pull {self.docker_image} docker image: {e}", self)
